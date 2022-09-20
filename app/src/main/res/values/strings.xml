@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Naver Map Test</string>
+    <string name="app_title1">네이버 지도 출력 테스트</string>
+    <string name="search_hint1">떠나고 싶은 곳을 검색해보세요!</string>
+    <string name="nav_item1">내 정보</string>
+    <string name="nav_item2">리포트</string>
+    <string name="nav_item3">공지사항</string>
+    <string name="nav_item4">앱 설정</string>
+    <string name="nav_item5">고객센터</string>
+    <string name="ret">돌아가기</string>
+</resources>
