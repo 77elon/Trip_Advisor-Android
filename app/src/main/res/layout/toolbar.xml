@@ -8,15 +8,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp">
 
-        <EditText
-            android:id="@+id/dest_search"
+        <AutoCompleteTextView
+            android:id="@+id/Place_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint ="@string/search_hint1"
             android:inputType="text"
-            android:textColorHint="#80000000"
-            android:textColor="#B2000000"
-            tools:ignore="LabelFor"
-            android:importantForAutofill="yes" />
+            android:textColorHint="@color/Light_Gray"
+            android:hint="@string/search_hint1"
+            android:completionThreshold="1" />
+
     </androidx.appcompat.widget.Toolbar>
 </LinearLayout>

@@ -18,6 +18,7 @@ android {
 
         buildConfigField "String", "CLIENT_ID", properties.getProperty('client_id')
         buildConfigField "String", "CLIENT_SECRET", properties.getProperty('client_secret')
+        buildConfigField "String", "KAKAO_REST_API", properties.getProperty("kakao_rest_api")
 
         manifestPlaceholders = [CLIENT_ID: '8kopww5b0e', CLIENT_SECRET: 'iLMbAJntlnf8oLXbu8hJSJN80rXqNYUFaCd4rRbb']
 
@@ -60,4 +61,6 @@ dependencies {
     //For JSON Transport
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
 }
