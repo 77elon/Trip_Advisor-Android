@@ -1,6 +1,8 @@
 package com.dhnns.navermaptest;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -8,14 +10,17 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
@@ -48,6 +53,7 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
     static final String sort = "distance";
 
     private NaverMap naverMap;
+    private LinearLayoutCompat map_layout;
     private MapView mapView;
     private ZoomControlView zoomControlView;
     private LocationButtonView locationButtonView;
@@ -66,13 +72,16 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
     private Button btn_ret;
     private DrawerLayout drawerLayout;
     //private NavigationView navigationView;
-    private LinearLayout customized_view;
+    private LinearLayoutCompat customized_view;
     private Toolbar toolbar;
     //private Geocoder geocoder;
 
     private AutoCompleteTextView Place_search;
     private Marker curr_marker, arr_marker, dest_marker;
 
+    private LinearLayoutCompat arr_dest_selection;
+    private TextView place_name, distance, phone, road_address_name;
+    private Button arr_btn, dest_btn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +113,7 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
         InitMarker();
         InitNavbar(customized_view, toolbar);
         InitUserInterface(uiSettings);
+        InitInteraction(mapView, Place_search);
 
         Customized_Btn(naverMap, uiSettings, zoomControlView, locationButtonView);
 
@@ -116,6 +126,7 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
         //Direction Tracking...! Marker Based
 
 
+        //naverMap.setOnMapClickListener((pointF, latLng) -> Place_search.clearFocus());
         btn_ret.setOnClickListener(v -> finish());
 
         //How to Set Dark/Light Mode Automation??, NaverMap(basic not support night_mode)
@@ -154,13 +165,24 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
 
     public void InitObj() {
         btn_ret = (Button) findViewById(R.id.btn_ret);
-        customized_view = (LinearLayout) findViewById(R.id.customized_view);
+        customized_view = findViewById(R.id.customized_view);
+        map_layout = findViewById(R.id.map_layout);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         //navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         Place_search = (AutoCompleteTextView) findViewById(R.id.Place_search);
+
+        arr_dest_selection = findViewById(R.id.nav_interaction);
+
+        place_name = findViewById(R.id.place_name);
+        distance = findViewById(R.id.distance);
+        phone = findViewById(R.id.phone);
+        road_address_name = findViewById(R.id.road_address_name);
+
+        arr_btn = findViewById(R.id.arr_btn);
+        dest_btn = findViewById(R.id.dest_btn);
     }
 
     public void InitMarker()    {
@@ -186,7 +208,7 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
         dest_marker.setIconPerspectiveEnabled(true);
     }
 
-    public void InitNavbar(@NonNull LinearLayout customized_view, @NonNull Toolbar toolbar) {
+    public void InitNavbar(@NonNull LinearLayoutCompat customized_view, @NonNull Toolbar toolbar) {
         this.customized_view = customized_view;
         this.toolbar = toolbar;
 
@@ -209,6 +231,27 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
         uiSettings.setZoomGesturesEnabled(enabled);
         //illegal
         uiSettings.setLogoClickEnabled(disabled);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void InitInteraction(@NonNull MapView mapView, @NonNull AutoCompleteTextView Place_search) {
+        this.mapView = mapView;
+        this.Place_search = Place_search;
+        Place_search.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        });
+
+        mapView.setOnTouchListener((v, event) -> {
+            Place_search.clearFocus();
+            return false;
+        });
     }
 
     public void Customized_Btn(@NonNull NaverMap naverMap, @NonNull UiSettings uiSettings, @NonNull ZoomControlView zoomControlView, @NonNull LocationButtonView locationButtonView) {
@@ -236,6 +279,7 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
         this.arr_marker = arr_marker;
         this.dest_marker = dest_marker;
 
+
         List<String> Place_List = new ArrayList<>();
         ArrayAdapter<?> adapter = new ArrayAdapter<>(Map_Test.this, android.R.layout.simple_dropdown_item_1line, Place_List);
         Place_search.setAdapter(adapter);
@@ -251,14 +295,23 @@ public class Map_Test extends AppCompatActivity implements OnMapReadyCallback {
                 adapter.notifyDataSetChanged();
 
                 Place_search.setOnItemClickListener((parent, view, position, id) -> {
-                    double selected_lat = Double.parseDouble(documents.getDocuments().get(position).getLatitude());
-                    double selected_lng = Double.parseDouble(documents.getDocuments().get(position).getLongitude());
+                    Document body = documents.getDocuments().get(position);
+                    //documents.getDocuments().get(position)
+                    double selected_lat = Double.parseDouble(body.getLatitude());
+                    double selected_lng = Double.parseDouble(body.getLongitude());
                     LatLng selected_pos = new LatLng(selected_lat, selected_lng);
                     naverMap.moveCamera(CameraUpdate.scrollTo(selected_pos).animate(CameraAnimation.Easing));
 
                     curr_marker.setPosition(selected_pos);
                     curr_marker.setMap(naverMap);
+
+                    arr_dest_selection.setVisibility(View.VISIBLE);
+                    place_name.setText(body.getPlaceName());
+                    distance.setText(Integer.parseInt(body.getDistance()) / 1000 + "km");
+                    phone.setText(body.getPhone());
+                    road_address_name.setText(body.getRoadAddressName());
                 });
+
 
                 /*
                 //if user selected arr btn...(flag based) -> arr_latlng assignment + marker based latlng extract...!

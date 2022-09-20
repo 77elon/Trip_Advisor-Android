@@ -12,6 +12,7 @@
 
         <!-- main content -->
         <include
+            android:id="@+id/map_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             layout="@layout/naver_map_main" />
@@ -40,6 +41,15 @@
             app:menu="@menu/nav_menu" />
     </androidx.drawerlayout.widget.DrawerLayout>
 
+    <!-- arr_dest Selection -->
+    <include
+        android:id="@+id/nav_interaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/nav_interaction"
+        android:layout_gravity="bottom"
+        android:visibility="invisible"/>
+
     <Button
         android:id="@+id/btn_ret"
         android:layout_width="wrap_content"
@@ -48,5 +58,5 @@
         android:enabled="true"
         android:text="@string/ret"
         app:layout_anchor="@+id/drawer_layout"
-        app:layout_anchorGravity="bottom|center"/>
+        app:layout_anchorGravity="bottom|end"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

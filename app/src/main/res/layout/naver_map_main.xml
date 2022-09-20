@@ -1,6 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linearLayout"
+    android:id="@+id/map_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -9,9 +9,10 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
         app:navermap_latitude="37.453176201560964"
         app:navermap_longitude="129.15931426571416"
         app:navermap_zoom="16" />
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
 
