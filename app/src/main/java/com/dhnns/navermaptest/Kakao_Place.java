@@ -17,7 +17,7 @@ public class Kakao_Place {
     //protected Documents documents;
 
     //Input From Toolbar_EditText
-    public void getPlace(String Query, String Latitude, String Longitude, String Sort, PlaceResponseListener placeResponseListener)
+    public static void getPlace(String Query, String Latitude, String Longitude, String Sort, PlaceResponseListener placeResponseListener)
     {
         OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
 
@@ -39,12 +39,11 @@ public class Kakao_Place {
 
             call.enqueue(new Callback<Documents>() {
                 @Override
-                public void onResponse(Call<Documents> call, Response<Documents> response) {
+                public void onResponse(@NonNull Call<Documents> call, @NonNull Response<Documents> response) {
 
                     if (!response.isSuccessful()) {
                         Log.d("Test", "Raw: "+ response.raw());
                         Log.d("Test", "Error Code: " + response.code());
-                        return;
                     }
                     else if (response.isSuccessful()) {
                         if (response.body() != null) {
@@ -59,7 +58,7 @@ public class Kakao_Place {
                 }
 
                 @Override
-                public void onFailure(@NonNull Call<Documents> call, Throwable t) {
+                public void onFailure(@NonNull Call<Documents> call, @NonNull Throwable t) {
                     Log.w("Test", "통신 실패: " + t.getMessage() );
                     placeResponseListener.onFailResponse();
                 }

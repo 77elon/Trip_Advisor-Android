@@ -8,6 +8,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/navermap"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:contentDescription="@string/app_desc" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
