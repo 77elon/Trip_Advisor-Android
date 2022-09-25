@@ -12,17 +12,25 @@
  <구현 기능!>
  
  * [현재 위치 표시]
+
+
   ![현재 위치 추적](https://user-images.githubusercontent.com/88618717/192143334-da63bcb2-a6ca-4619-bd44-fcfcf3f650c1.png)
   사용자에게 여행 경로를 추천하기 위한 현 위치 추적 기능입니다.
   
  * [건물 정보 표시]
+
+
   ![건물 정보 표시](https://user-images.githubusercontent.com/88618717/192143338-f036bf33-f193-457a-ae5e-b98af0958602.png)
   사용자가 지도를 움직이며, 건물을 터치한다면 건물의 이름과 정보가 표시됩니다.
 
  * [위치 기반 인근 건물 검색]
+
+
   ![거리 순 검색](https://user-images.githubusercontent.com/88618717/192142652-ba6f8cbc-7f32-4239-bb0a-0433e03ea81d.png)
   입력한 검색어와 가장 근접한, 위치 상으로도 가까운 순으로 건물 검색 결과를 보여줍니다.
   
  * [거리 계산]
+
+
   ![검색 결과](https://user-images.githubusercontent.com/88618717/192143446-fca35c5e-7a84-4bef-bda1-b6caf110a30a.png)
   사진에서는 현 위치인 삼척해수욕장에서 삼척 쏠비치를 검색했으며, 상호 명, 주소, 전화번호, 거리를 보여줍니다.
